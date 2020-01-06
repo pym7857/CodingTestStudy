@@ -1,2 +1,2 @@
 # CodingTestStudy
-코테 스터디 
+python 코테 스터디 
