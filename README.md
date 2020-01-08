@@ -1,4 +1,5 @@
 # CodingTestStudy
+Kakao blind recruitment coding test exercise
 
 ## Team member
 
