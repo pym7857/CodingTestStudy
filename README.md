@@ -1,5 +1,5 @@
 # CodingTestStudy
-각자 branch에서 작업->
+각자 branch에서 작업 후, 업로드
 
 ## Team member
 
