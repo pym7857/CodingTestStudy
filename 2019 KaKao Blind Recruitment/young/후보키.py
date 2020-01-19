@@ -1,52 +1,63 @@
 ﻿from itertools import chain, combinations
 
 # 모든 부분집합을 구하는 함수 (stackOverflow 참조)
-def get_all_subset(iterable): # 매개변수 : 리스트
+def get_all_subset(iterable):
     s = list(iterable)
-    return chain.from_iterable(combinations(s, r) for r in range(len(s) + 1))
+    return chain.from_iterable(combinations(s, r) for r in range(len(s) + 1))   # 집합형태가 아닌, 튜플 형태로 반환 
 
-# 후보키: 1.유일성  2.최소성
+# 1. 유일성을 만족하는 집합 구하기 
+def get_all_uniq_subset(relation):
+    # 모든 column의 이름을 0, 1, 2, 3 으로 표현 
+    subset_list = get_all_subset(list(range(len(relation[0])))) # list(range(len(relation[0]))) = [0, 1, ,2, 3]
+                                                                # subset_list = [0], [1], .. [0,1], ...[0,1,2,3]
+    uniq_list = []
     
-# 위 부분집합 중에서 1.유일성을 만족하는 부분집합을 구하는 함수
-def get_all_unique_subset(relation): # 중복되는게 있는지 확인하는 함수
-    subset_list = get_all_subset(list(range(len(relation[0])))) # [0,1,2,3] 의 모든 부분집합 -> 열의 이름을 0,1,2,3...등 으로 바꾼것
-    unique_list = []
+    col_count = len(relation[0]) # 열의 개수 = 4
+    row_count = len(relation) # 행의 개수 = 6
     
-    # 유일성을 만족하는지 체크
-    for subset in subset_list:    # [0],[1],[0,1],[0,1,2] .. (= 학번, (학번,이름)... )
-        unique = True
-        row_set = set()      # 하나의 부분집합의 모든행에 대한 row 저장소
-
-        # 모든행을 돌면서 중복되는 행(문자열)이 있는지 확인
-        for i in range(len(relation)):     # i = 0,1,2,3,4,5..
-            row = ' '
-            for j in subset:
-                row += relation[i][j] + '.'	# 100.ryan등으로 바꿈
+    # 부분집합 하나하나에 대해서, 
+    for subset in subset_list: # subset = [0], [1], .. [0,1], ...[0,1,2,3]
+        uniq = True
+        row_set = set() # 어떠한 부분집합의 모든 행에 대한 값 저장소
+    
+        for i in range(row_count): # 모든 행을 돌면서 유일성을 만족하는지 검사 
+            row = ' '  # 행 문자열 담을 공간
+            for j in subset: 
+                row += relation[i][j] + '.'  # 튜플을 100.ryan. 등의 문자열로 저장 
+                
             if row in row_set:
-                unique = False
-                break 		# 모든 행을 도는 for문 즉시 빠져나감 
-            row_set.add(row)
-
-        # 유일성을 만족하는 부분집합에 대해서만..
-        if unique == True:
-            unique_list.append(subset)
-            
-    return unique_list
-
-# 위 부분집합 중에서 2.최소성을 만족하는 부분집합을 구하는 함수 
-def solution(relation):
-    unique_list = get_all_unique_subset(relation)
-    unique_list = sorted(unique_list, key=lambda t:len(t))  # 부분집합의 크기가 작은 순서대로 정렬 ->   ex) [1], [1,2] ...
+                uniq = False
+                break
+            else:
+                row_set.add(row) # 한 행 마다 row_set에 추가 
     
-    answer_list = []
+        # 하나의 부분집합에 대해서 모든 행을 돌고난뒤
+        if uniq == True:
+            uniq_list.append(subset)
+    
+    return uniq_list
+    
+# 2. 최소성을 만족하는 집합 구하기 
+# 유일성을 만족하는 부분집합에 속하는 부분집합들을 걸러주면 된다.
+def solution(relation):
+    uniq_list = get_all_uniq_subset(relation)
+    uniq_list = sorted(uniq_list, key=lambda t:len(t)) # 길이순으로 오름차순 정렬 
+    
+    answer_list = [] # 중복이 없는 집합들의 집합 (길이가 짧은 집합부터 들어간다)
     
     # 최소성을 만족하는지 체크
-    for subset in unique_list: 	 # subset = [1], [1,2] ...
+    for uniq in uniq_list: # uniq = [0], [1], [2]... [0,1]... [0,1,2]...
+        uniq = set(uniq) # 튜플 -> 집합 형태로 변환 (issubset함수 사용 가능)
         check = True
+        
         for j in answer_list:
-            if j.issubset(subset):	 # 크기가 작은 부분집합이, 크기가 큰 부분집합의 부분집합인지 체크
+            if j.issubset(uniq): # 길이가 짧은 answer_list 집합의 원소가, uniq에 속하는지 체크 
                 check = False
+        
         if check == True:
-            answer_list.append(subset)
-    
+            answer_list.append(uniq)
+        
+        
     return len(answer_list)
+    
+# solution([["100","ryan","music","2"],["200","apeach","math","2"],["300","tube","computer","3"],["400","con","computer","4"],["500","muzi","music","3"],["600","apeach","music","2"]])
