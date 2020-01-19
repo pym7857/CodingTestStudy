@@ -9,14 +9,14 @@ def get_all_subset(iterable):
 def get_all_uniq_subset(relation):
     # 모든 column의 이름을 0, 1, 2, 3 으로 표현 
     subset_list = get_all_subset(list(range(len(relation[0])))) # list(range(len(relation[0]))) = [0, 1, ,2, 3]
-                                                                # subset_list = [0], [1], .. [0,1], ...[0,1,2,3]
+                                                                # subset_list = (0,), (1), .. (0,1), ..(0,1,2,3)
     uniq_list = []
     
     col_count = len(relation[0]) # 열의 개수 = 4
     row_count = len(relation) # 행의 개수 = 6
     
     # 부분집합 하나하나에 대해서, 
-    for subset in subset_list: # subset = [0], [1], .. [0,1], ...[0,1,2,3]
+    for subset in subset_list: # subset_list = (0,), (1), .. (0,1), ..(0,1,2,3)
         uniq = True
         row_set = set() # 어떠한 부분집합의 모든 행에 대한 값 저장소
     
@@ -42,11 +42,12 @@ def get_all_uniq_subset(relation):
 def solution(relation):
     uniq_list = get_all_uniq_subset(relation)
     uniq_list = sorted(uniq_list, key=lambda t:len(t)) # 길이순으로 오름차순 정렬 
-    
+    # print(uniq_list)
+
     answer_list = [] # 중복이 없는 집합들의 집합 (길이가 짧은 집합부터 들어간다)
     
     # 최소성을 만족하는지 체크
-    for uniq in uniq_list: # uniq = [0], [1], [2]... [0,1]... [0,1,2]...
+    for uniq in uniq_list: # uniq_list = [(0,), (0, 1), (0, 2), (0, 3), (1, 2), (0, 1, 2), (0, 1, 3), (0, 2, 3), (1, 2, 3), (0, 1, 2, 3)]
         uniq = set(uniq) # 튜플 -> 집합 형태로 변환 (issubset함수 사용 가능)
         check = True
         
