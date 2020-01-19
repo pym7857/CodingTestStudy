@@ -9,14 +9,14 @@ def get_all_subset(iterable):
 def get_all_uniq_subset(relation):
     # 모든 column의 이름을 0, 1, 2, 3 으로 표현 
     subset_list = get_all_subset(list(range(len(relation[0])))) # list(range(len(relation[0]))) = [0, 1, ,2, 3]
-                                                                # subset_list = (0,), (1), .. (0,1), ..(0,1,2,3)
+                                                                # subset_list = [(0,), (1), .. (0,1), ..(0,1,2,3)]
     uniq_list = []
     
     col_count = len(relation[0]) # 열의 개수 = 4
     row_count = len(relation) # 행의 개수 = 6
     
     # 부분집합 하나하나에 대해서, 
-    for subset in subset_list: # subset_list = (0,), (1), .. (0,1), ..(0,1,2,3)
+    for subset in subset_list: # subset_list = [(0,), (1), .. (0,1), ..(0,1,2,3)]
         uniq = True
         row_set = set() # 어떠한 부분집합의 모든 행에 대한 값 저장소
     
