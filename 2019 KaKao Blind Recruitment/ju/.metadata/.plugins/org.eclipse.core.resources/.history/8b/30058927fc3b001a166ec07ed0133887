@@ -1,0 +1,48 @@
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
+
+class Muzi {
+    class Time{
+        int times;
+        int index;
+        
+        Time(int times,int index){
+            this.times = times;
+            this.index = index;
+        }
+    }
+    public int solution(int[] food_times, long k) {
+        int answer = 0;
+        int timeLen = food_times.length;
+        int[] tmpTime = new int[timeLen];
+        int totalTime = 0;
+        Time tmpFood = new Time(0,0);
+        
+        System.arraycopy(food_times,0,tmpTime,0,timeLen);
+        
+        Queue<Time> queue = new LinkedList<Time>();
+        
+        Arrays.sort(tmpTime);
+
+        for(int i=0;i<timeLen;i++){
+            queue.add(new Time(food_times[i],i+1));
+            totalTime += food_times[i];
+        }
+        
+        if(totalTime <= k)
+            answer = -1;
+        else{
+            for(int i=0;i<k;i++){
+                tmpFood = queue.poll();
+                if(tmpFood.times > 1){
+                    queue.add(new Time(tmpFood.times-1,tmpFood.index));
+                }
+            }
+
+            tmpFood = queue.poll();
+            answer = tmpFood.index;
+        }
+        return answer;
+    }
+}

@@ -1,0 +1,1 @@
+INDEX VERSION 1.131+D:\프로젝트\CodingTestStudy\2019 KaKao Blind Recruitment\ju\.metadata\.plugins\org.eclipse.jdt.core
