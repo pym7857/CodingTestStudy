@@ -1,5 +1,5 @@
 # CodingTestStudy :pencil2:
-Must do work on each branch, and upload !
+Do work on each branch, and upload !
 
 ## Team member
 
