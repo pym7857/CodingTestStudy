@@ -42,8 +42,8 @@ def solution(s):
                 #else: # 다른게 계속 나왔을때 
         '''
         flag = 0
-
-        seq = 0        
+        seq = 0 # 연속되는 숫자의 개수 
+        
         for k in range(len(lst)-1):
             if lst[k] == lst[k+1]: # 같은게 나오면
                 flag = 1
@@ -52,6 +52,14 @@ def solution(s):
             else: # 다른게 나오면
                 if flag == 1: # 앞에꺼가 같은 문자 였다면 
                     c += 1
+                    
+                    seq += 1
+                    if seq >= 10: # 10cde
+                        c += 1
+                        if seq >= 100: # 100cde
+                            c += 1
+                            if seq >= 1000: # 1000cde
+                                c += 1
                     flag = 0
                     seq = 0
                 else:
@@ -84,3 +92,4 @@ def solution(s):
 #print(solution("abcabcdede"))
 #print(solution("abcabcabcabcdededededede"))
 #print(solution("xababcdcdababcdcd"))
+print(solution("xxxxxxxxxxd"))
