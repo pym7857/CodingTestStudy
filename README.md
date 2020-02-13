@@ -1,5 +1,5 @@
-# CodingTestStudy
-각자 branch에서 작업 후, 업로드 할 것 !
+# CodingTestStudy :pencil2:
+Do work on each branch, and upload !
 
 ## Team member
 
