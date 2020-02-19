@@ -42,15 +42,26 @@ def solution(s):
                 #else: # 다른게 계속 나왔을때 
         '''
         flag = 0
+        seq = 0 # 연속되는 숫자의 개수 
         
         for k in range(len(lst)-1):
-            if lst[k] == lst[k+1]:
+            if lst[k] == lst[k+1]: # 같은게 나오면
                 flag = 1
-                lst[k] = ''
-            else:
-                if flag == 1:
+                seq += 1
+                lst[k] = '' # 이전 문자 공백으로 만듦 
+            else: # 다른게 나오면
+                if flag == 1: # 앞에꺼가 같은 문자 였다면 
                     c += 1
+                    
+                    seq += 1
+                    if seq >= 10: # 10cde
+                        c += 1
+                        if seq >= 100: # 100cde
+                            c += 1
+                            if seq >= 1000: # 1000cde
+                                c += 1
                     flag = 0
+                    seq = 0
                 else:
                     continue
         #print('(i, c, lst) = ', i, c, lst)
@@ -60,13 +71,18 @@ def solution(s):
                 final_state += a
         #print('final_state = ', final_state)
         
-        final_len = len(final_state)+c
+        if c >= 10:
+            c += 1
+            if c >= 100:
+                c += 1
+                if c >= 1000:
+                    c += 1
+
+        final_len = len(final_state) + c
         #print('final_len = ', final_len)
         
         if final_len < min_value :
             min_value = final_len
-
-    #print(min_value, min_idx)
 
     return min_value
 
@@ -76,4 +92,4 @@ def solution(s):
 #print(solution("abcabcdede"))
 #print(solution("abcabcabcabcdededededede"))
 #print(solution("xababcdcdababcdcd"))
-
+print(solution("xxxxxxxxxxd"))
